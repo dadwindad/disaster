@@ -1,0 +1,97 @@
+<template>
+  <!-- <Tutorial /> -->
+
+  <div>
+    <span :title="message">{{ message }}</span>
+
+    <button @click="reverseMsg">Reverse</button>
+
+    <input type="text" v-model="message">
+
+    <ol>
+      <TodoItem v-for="(todo, index) in todos" :key="index" :item="todo"></TodoItem>
+    </ol>
+
+    <div>
+      <p>
+        ASKs y/n Question:
+        <input v-model="question">
+      </p>
+      <p>{{ answer }}</p>
+    </div>
+
+    <div>
+      <h1 :class="{ active: isAactive }">Hello class</h1>
+    </div>
+
+  </div>
+</template>
+
+<script>
+import _ from 'lodash'
+import axios from 'axios'
+import TodoItem from '~/components/TodoItem.vue'
+
+export default {
+  comments: {
+    TodoItem
+  },
+
+  created() {
+    this.debouncedGetAnswer = _.debounce(this.getAnswer, 500);
+  },
+
+  watch: {
+    question(newQ, oldQ) {
+      this.answer = 'waiting for your typing..'
+      this.debouncedGetAnswer()
+    }
+  },
+
+  data() {
+    return {
+      isAactive: true,
+
+      question: '',
+      answer: 'I cant give your answer...',
+
+      todos: [
+        { text: "vue" },
+        { text: "react", fullname: "test name" },
+      ],
+      message: "IndexPage",
+    };
+  },
+  methods: {
+    getAnswer() {
+      if (!this.question.includes('?')) {
+        this.answer = "must have ?";
+      } else {
+        this.answer = "Thinking...";
+
+        axios.get('https://yesno.wtf/api').then((res) => {
+          console.log(res);
+          this.answer = _.capitalize(res.data.answer)
+        }).catch((err) => {
+          this.answer = "Error, cant reach from API." + err
+        })
+      }
+    },
+
+    reverseMsg() {
+      return (this.message = this.message.split("").reverse().join(""));
+    }
+  },
+  components: { TodoItem }
+};
+</script>
+
+<style scoped>
+h1.active {
+  color: blue
+}
+
+h1.err {
+  font-weight: bold;
+}
+</style>

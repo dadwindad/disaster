@@ -1,0 +1,122 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+/////////////////////////////////////model//////////////////////
+
+model User_status {
+  User_status_id Int    @id
+  status_des     String
+  userId         User[]
+}
+
+model User_type {
+  user_type_id  Int    @id
+  user_type_des String
+  userId        User[]
+}
+
+model User {
+  user_ciz_id               String       @id @db.VarChar(13)
+  username                  String       @unique
+  password                  String?
+  user_fname                String?
+  user_lname                String?
+  user_tel                  String?
+  user_avatar               String?
+  user_type                 Int
+  date_create               DateTime?
+  date_update               DateTime?
+  User_status               User_status? @relation(fields: [user_statusUser_status_id], references: [User_status_id])
+  user_statusUser_status_id Int?
+  User_type                 User_type?   @relation(fields: [user_typeUser_type_id], references: [user_type_id])
+  user_typeUser_type_id     Int?
+}
+
+model Risk {
+  risk_lv     Int       @id
+  risk_des    String
+  risk_ub     Float?
+  risk_lb     Float
+  date_create DateTime?
+  date_update DateTime?
+}
+
+model Factor {
+  factor_id      Int       @id
+  factor_abbrev  String
+  factor_name    String
+  factor_wweight Float
+  date_create    DateTime?
+  date_update    DateTime?
+}
+
+model Home_member {
+  home_id          String        @id @db.VarChar(13)
+  member_ciz_id    String        @unique
+  member_fname     String
+  member_lname     String
+  member_birth_day DateTime?
+  date_create      DateTime?
+  date_update      DateTime?
+  member_info_id   Member_info[]
+}
+
+model Member_info {
+  member_info_id     Int          @id @default(autoincrement())
+  member_ciz_id      String       @db.VarChar(13)
+  member_occupation  String?
+  member_poor        String?
+  date_create        DateTime?
+  date_update        DateTime?
+  Home_member        Home_member? @relation(fields: [home_memberHome_id], references: [home_id])
+  home_memberHome_id String?      @db.VarChar(13)
+}
+
+model Dashboard {
+  dashboard_id Int       @id @default(autoincrement())
+  risk_lv_1    Float?
+  risk_lv_2    Float?
+  risk_lv_3    Float?
+  risk_lv_4    Float?
+  H_lv         Float?
+  E_lv         Float?
+  V_lv         Float?
+  C_lv         Float?
+  date_create  DateTime?
+}
+
+model Dashboard_sub_lv {
+  sub_lv           Int             @id
+  sub_lv_des       String
+  dashboard_sub_id Dashboard_sub[]
+}
+
+model Dashboard_sub {
+  dashboard_sub_id       Int               @id @default(autoincrement())
+  risk_lv                Float?
+  H_lv                   Float?
+  E_lv                   Float?
+  V_lv                   Float?
+  C_lv                   Float?
+  mo_num                 Int?
+  house_num              Int?
+  people_num             Int?
+  polygon_id             Int?
+  sub_lv                 Int
+  date_create            DateTime?
+  Dashboard_sub_lv       Dashboard_sub_lv? @relation(fields: [dashboard_sub_lvSub_lv], references: [sub_lv])
+  dashboard_sub_lvSub_lv Int?
+}
+
+model Questionnaire {
+  questionnaire_id Int @id
+}
