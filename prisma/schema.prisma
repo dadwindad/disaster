@@ -117,6 +117,298 @@ model Dashboard_sub {
   dashboard_sub_lvSub_lv Int?
 }
 
+model Study_lv {
+  study_lv         Int                    @id
+  study_des        String
+  questionnaire_id Questionnaire_part_1[]
+}
+
+model Occupation {
+  occupation_id    Int                    @id
+  occupation_des   String
+  questionnaire_id Questionnaire_part_1[]
+}
+
+model Questionnaire_part_1 {
+  Questionnaire_part_1    Int             @id @default(autoincrement())
+  q_fname                 String?
+  q_lname                 String?
+  q_sex                   Int?
+  q_birth_of_date         DateTime?
+  q_study_max_lv          Int?
+  Study_lv                Study_lv?       @relation(fields: [study_lvStudy_lv], references: [study_lv])
+  study_lvStudy_lv        Int?
+  occupation_id           Int?
+  Occupation              Occupation?     @relation(fields: [occupationOccupation_id], references: [occupation_id])
+  occupationOccupation_id Int?
+  occupation_other        String?
+  questionnaire_id        Questionnaire[]
+}
+
+model Lack_water_freq {
+  lack_water_freq      Int                    @id @default(autoincrement())
+  lack_water_freq_des  String
+  questionnaire_part_2 Questionnaire_part_2[]
+}
+
+model Lack_water_long {
+  lack_water_long      Int                    @id @default(autoincrement())
+  lack_water_long_des  String
+  questionnaire_part_2 Questionnaire_part_2[]
+}
+
+model Prevent_info {
+  prevent_info         Int                    @id @default(autoincrement())
+  prevent_info_des     String
+  questionnaire_part_2 Questionnaire_part_2[]
+}
+
+model disaster_trianning {
+  disaster_trianning     Int                    @id @default(autoincrement())
+  disaster_trianning_des String
+  questionnaire_part_2   Questionnaire_part_2[]
+}
+
+model Water_pump {
+  water_pump           Int                    @id @default(autoincrement())
+  water_pump_des       String
+  questionnaire_part_2 Questionnaire_part_2[]
+}
+
+model Water_reserve_type {
+  water_reserve_type     Int             @id @default(autoincrement())
+  water_reserve_type_des String
+  water_reserv           Water_reserve[]
+}
+
+model Water_reserve_amount {
+  water_reserve_amount     Int                    @id @default(autoincrement())
+  water_reserve_amount_des String
+  questionnaire_part_2     Questionnaire_part_2[]
+}
+
+model Water_reserve {
+  water_reserve                        Int                    @id @default(autoincrement())
+  questionnaire_part_2                 Questionnaire_part_2[]
+  Water_reserve_type                   Water_reserve_type?    @relation(fields: [water_reserve_typeWater_reserve_type], references: [water_reserve_type])
+  water_reserve_typeWater_reserve_type Int?
+}
+
+model Underwater {
+  underwater           Int                    @id @default(autoincrement())
+  underwater_des       String
+  questionnaire_part_2 Questionnaire_part_2[]
+}
+
+model assistance {
+  assistance           Int                    @id @default(autoincrement())
+  assistance_des       String
+  questionnaire_part_2 Questionnaire_part_2[]
+}
+
+model Irrigation {
+  irrigation             Int                      @id
+  irrigation_des         String
+  occupation_agriculture Occupation_agriculture[]
+}
+
+model water_sufficient {
+  Water_sufficient       Int                      @id
+  water_sufficient_des   String
+  occupation_agriculture Occupation_agriculture[]
+  occupation_livestock   Occupation_livestock[]
+  Occupation_fishing     Occupation_fishing[]
+  Occupation_other       Occupation_other[]
+}
+
+model Occupation_agriculture {
+  occupation_agriculture           Int                    @id @default(autoincrement())
+  plant_name                       String?
+  latitude                         String?
+  longitude                        String?
+  start_date                       DateTime?
+  finish_date                      DateTime?
+  area                             Float?
+  product_amount                   Float?
+  Irrigation                       Irrigation?            @relation(fields: [irrigationIrrigation], references: [irrigation])
+  irrigationIrrigation             Int?
+  water_source_name                String?
+  water_source_distance            Float?
+  water_sufficient                 water_sufficient?      @relation(fields: [water_sufficientWater_sufficient], references: [Water_sufficient])
+  water_sufficientWater_sufficient Int?
+  questionnaire_part_2             Questionnaire_part_2[]
+}
+
+model Lack_water_freq_agriculture {
+  lack_water_freq_agriculture     Int                    @id
+  Lack_water_freq_agriculture_des String
+  questionnaire_part_2            Questionnaire_part_2[]
+}
+
+model Lack_water_freq_livestock {
+  lack_water_freq_livestock     Int                    @id
+  Lack_water_freq_livestock_des String
+  questionnaire_part_2          Questionnaire_part_2[]
+}
+
+model Lack_water_long_livestock {
+  lack_water_long_livestock     Int                    @id
+  Lack_water_long_livestock_des String
+  questionnaire_part_2          Questionnaire_part_2[]
+}
+
+model Occupation_livestock {
+  occupation_livestock             Int                    @id @default(autoincrement())
+  animal                           String?
+  latitude                         String?
+  longitude                        String?
+  amount                           Int?
+  area_size                        Float?
+  water_aount_day                  Float?
+  water_source_name                String?
+  water_source_distance            Float?
+  water_sufficient                 water_sufficient?      @relation(fields: [water_sufficientWater_sufficient], references: [Water_sufficient])
+  water_sufficientWater_sufficient Int?
+  questionnaire_part_2             Questionnaire_part_2[]
+}
+
+model Lack_water_freq_fishing {
+  lack_water_freq_fishing     Int                    @id
+  Lack_water_freq_fishing_des String
+  questionnaire_part_2        Questionnaire_part_2[]
+}
+
+model Occupation_fishing {
+  occupation_fishing               Int                    @id @default(autoincrement())
+  animal                           String?
+  latitude                         String?
+  longitude                        String?
+  amount                           Int?
+  pond_size                        Float?
+  water_aount_day                  Float?
+  water_source_name                String?
+  water_source_distance            Float?
+  water_sufficient                 water_sufficient?      @relation(fields: [water_sufficientWater_sufficient], references: [Water_sufficient])
+  water_sufficientWater_sufficient Int?
+  questionnaire_part_2             Questionnaire_part_2[]
+}
+
+model Lack_water_freq_other {
+  lack_water_freq_other       Int                    @id
+  Lack_water_freq_fishing_des String
+  questionnaire_part_2        Questionnaire_part_2[]
+}
+
+model Lack_water_long_other {
+  lack_water_long_other     Int                    @id
+  Lack_water_long_other_des String
+  questionnaire_part_2      Questionnaire_part_2[]
+}
+
+model Occupation_other {
+  occupation_other                 Int                    @id @default(autoincrement())
+  occupation_name                  String?
+  latitude                         String?
+  longitude                        String?
+  occupation_area                  Float?
+  water_aount_day                  Float?
+  water_source_name                String?
+  water_source_distance            Float?
+  water_sufficient                 water_sufficient?      @relation(fields: [water_sufficientWater_sufficient], references: [Water_sufficient])
+  water_sufficientWater_sufficient Int?
+  questionnaire_part_2             Questionnaire_part_2[]
+}
+
+model Questionnaire_part_2 {
+  Questionnaire_part_2                                   Int                          @id @default(autoincrement())
+  home_no                                                String?
+  latitude                                               String?
+  logitude                                               String?
+  income                                                 Int?
+  member_num_real                                        Int?
+  water_use_volume                                       Float?
+  water_use_charge                                       Float?
+  questionnaire_id                                       Questionnaire[]
+  Water_source                                           Water_source?                @relation(fields: [water_sourceWater_source_id], references: [water_source_id])
+  water_sourceWater_source_id                            Int?
+  member_weak_num                                        Int?
+  member_weak_bed                                        Int?
+  member_weak_disabled                                   Int?
+  member_old                                             Int?
+  member_children                                        Int?
+  member_hidden                                          Int?
+  member_hidden_note                                     String?
+  Lack_water_freq                                        Lack_water_freq?             @relation(fields: [lack_water_freqLack_water_freq], references: [lack_water_freq])
+  lack_water_freqLack_water_freq                         Int?
+  Lack_water_long                                        Lack_water_long?             @relation(fields: [lack_water_longLack_water_long], references: [lack_water_long])
+  lack_water_longLack_water_long                         Int?
+  Prevent_info                                           Prevent_info?                @relation(fields: [prevent_infoPrevent_info], references: [prevent_info])
+  prevent_infoPrevent_info                               Int?
+  disaster_trianning                                     disaster_trianning?          @relation(fields: [disaster_trianningDisaster_trianning], references: [disaster_trianning])
+  disaster_trianningDisaster_trianning                   Int?
+  Water_pump                                             Water_pump?                  @relation(fields: [water_pumpWater_pump], references: [water_pump])
+  water_pumpWater_pump                                   Int?
+  Water_reserve                                          Water_reserve?               @relation(fields: [water_reserveWater_reserve], references: [water_reserve])
+  water_reserveWater_reserve                             Int?
+  Water_reserve_amount                                   Water_reserve_amount?        @relation(fields: [water_reserve_amountWater_reserve_amount], references: [water_reserve_amount])
+  water_reserve_amountWater_reserve_amount               Int?
+  Underwater                                             Underwater?                  @relation(fields: [underwaterUnderwater], references: [underwater])
+  underwaterUnderwater                                   Int?
+  assistance                                             assistance?                  @relation(fields: [assistanceAssistance], references: [assistance])
+  assistanceAssistance                                   Int?
+  assistance_note                                        String?
+  Occupation_agriculture                                 Occupation_agriculture?      @relation(fields: [occupation_agricultureOccupation_agriculture], references: [occupation_agriculture])
+  occupation_agricultureOccupation_agriculture           Int?
+  Lack_water_freq_agriculture                            Lack_water_freq_agriculture? @relation(fields: [lack_water_freq_agricultureLack_water_freq_agriculture], references: [lack_water_freq_agriculture])
+  lack_water_freq_agricultureLack_water_freq_agriculture Int?
+  lack_water_max_long_agriculture                        String?
+  lack_water_month_agriculture                           String?
+  Lack_water_freq_livestock                              Lack_water_freq_livestock?   @relation(fields: [lack_water_freq_livestockLack_water_freq_livestock], references: [lack_water_freq_livestock])
+  lack_water_freq_livestockLack_water_freq_livestock     Int?
+  Lack_water_long_livestock                              Lack_water_long_livestock?   @relation(fields: [lack_water_long_livestockLack_water_long_livestock], references: [lack_water_long_livestock])
+  lack_water_long_livestockLack_water_long_livestock     Int?
+  lack_water_month_livestock                             String?
+  Occupation_livestock                                   Occupation_livestock?        @relation(fields: [occupation_livestockOccupation_livestock], references: [occupation_livestock])
+  occupation_livestockOccupation_livestock               Int?
+  Occupation_fishing                                     Occupation_fishing?          @relation(fields: [occupation_fishingOccupation_fishing], references: [occupation_fishing])
+  occupation_fishingOccupation_fishing                   Int?
+  lack_water_max_long_fishing                            String?
+  lack_water_month_fishing                               String?
+  Lack_water_freq_fishing                                Lack_water_freq_fishing?     @relation(fields: [lack_water_freq_fishingLack_water_freq_fishing], references: [lack_water_freq_fishing])
+  lack_water_freq_fishingLack_water_freq_fishing         Int?
+  Occupation_other                                       Occupation_other?            @relation(fields: [occupation_otherOccupation_other], references: [occupation_other])
+  occupation_otherOccupation_other                       Int?
+  Lack_water_freq_other                                  Lack_water_freq_other?       @relation(fields: [lack_water_freq_otherLack_water_freq_other], references: [lack_water_freq_other])
+  lack_water_freq_otherLack_water_freq_other             Int?
+  Lack_water_long_other                                  Lack_water_long_other?       @relation(fields: [lack_water_long_otherLack_water_long_other], references: [lack_water_long_other])
+  lack_water_long_otherLack_water_long_other             Int?
+  suggestion                                             String?
+}
+
 model Questionnaire {
-  questionnaire_id Int @id
+  questionnaire_id                         Int                   @id
+  date_create                              DateTime?
+  date_update                              DateTime?
+  Questionnaire_part_1                     Questionnaire_part_1? @relation(fields: [questionnaire_part_1Questionnaire_part_1], references: [Questionnaire_part_1])
+  questionnaire_part_1Questionnaire_part_1 Int?
+  Questionnaire_part_2                     Questionnaire_part_2? @relation(fields: [questionnaire_part_2Questionnaire_part_2], references: [Questionnaire_part_2])
+  questionnaire_part_2Questionnaire_part_2 Int?
+}
+
+model Water_source_type {
+  water_source_type Int            @id
+  water_source_des  String
+  water_source      Water_source[]
+}
+
+model Water_source {
+  water_source_id                    Int                    @id @default(autoincrement())
+  name                               String?
+  latitude                           String?
+  logitude                           String?
+  volume                             Float
+  distance                           Float
+  Water_source_type                  Water_source_type?     @relation(fields: [water_source_typeWater_source_type], references: [water_source_type])
+  water_source_typeWater_source_type Int?
+  Questionnaire_part_2               Questionnaire_part_2[]
 }
