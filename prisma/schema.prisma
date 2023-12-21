@@ -171,7 +171,7 @@ model Prevent_info {
   questionnaire_part_2 Questionnaire_part_2[]
 }
 
-model disaster_trianning {
+model Disaster_trianning {
   disaster_trianning     Int                    @id @default(autoincrement())
   disaster_trianning_des String
   questionnaire_part_2   Questionnaire_part_2[]
@@ -202,13 +202,13 @@ model Water_reserve {
   water_reserve_typeWater_reserve_type Int?
 }
 
-model Underwater {
-  underwater           Int                    @id @default(autoincrement())
-  underwater_des       String
+model Groundwater {
+  groundwater          Int                    @id @default(autoincrement())
+  groundwater_des      String
   questionnaire_part_2 Questionnaire_part_2[]
 }
 
-model assistance {
+model Assistance {
   assistance           Int                    @id @default(autoincrement())
   assistance_des       String
   questionnaire_part_2 Questionnaire_part_2[]
@@ -250,7 +250,7 @@ model Occupation_agriculture {
 
 model Lack_water_freq_agriculture {
   lack_water_freq_agriculture     Int                    @id
-  Lack_water_freq_agriculture_des String
+  lack_water_freq_agriculture_des String
   questionnaire_part_2            Questionnaire_part_2[]
 }
 
@@ -356,18 +356,14 @@ model Questionnaire_part_2 {
   lack_water_longLack_water_long                         Int?
   Prevent_info                                           Prevent_info?                @relation(fields: [prevent_infoPrevent_info], references: [prevent_info])
   prevent_infoPrevent_info                               Int?
-  disaster_trianning                                     disaster_trianning?          @relation(fields: [disaster_trianningDisaster_trianning], references: [disaster_trianning])
-  disaster_trianningDisaster_trianning                   Int?
   Water_pump                                             Water_pump?                  @relation(fields: [water_pumpWater_pump], references: [water_pump])
   water_pumpWater_pump                                   Int?
   Water_reserve                                          Water_reserve?               @relation(fields: [water_reserveWater_reserve], references: [water_reserve])
   water_reserveWater_reserve                             Int?
   Water_reserve_amount                                   Water_reserve_amount?        @relation(fields: [water_reserve_amountWater_reserve_amount], references: [water_reserve_amount])
   water_reserve_amountWater_reserve_amount               Int?
-  Underwater                                             Underwater?                  @relation(fields: [underwaterUnderwater], references: [underwater])
-  underwaterUnderwater                                   Int?
-  assistance                                             assistance?                  @relation(fields: [assistanceAssistance], references: [assistance])
-  assistanceAssistance                                   Int?
+  Groundwater                                            Groundwater?                 @relation(fields: [groundwaterGroundwater], references: [groundwater])
+  groundwaterGroundwater                                 Int?
   assistance_note                                        String?
   Occupation_agriculture                                 Occupation_agriculture?      @relation(fields: [occupation_agricultureOccupation_agriculture], references: [occupation_agriculture])
   occupation_agricultureOccupation_agriculture           Int?
@@ -395,6 +391,10 @@ model Questionnaire_part_2 {
   Lack_water_long_other                                  Lack_water_long_other?       @relation(fields: [lack_water_long_otherLack_water_long_other], references: [lack_water_long_other])
   lack_water_long_otherLack_water_long_other             Int?
   suggestion                                             String?
+  Disaster_trianning                                     Disaster_trianning?          @relation(fields: [disaster_trianningDisaster_trianning], references: [disaster_trianning])
+  disaster_trianningDisaster_trianning                   Int?
+  Assistance                                             Assistance?                  @relation(fields: [assistanceAssistance], references: [assistance])
+  assistanceAssistance                                   Int?
 }
 
 model Questionnaire {
