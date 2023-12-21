@@ -15,45 +15,46 @@ import { prisma } from '../server';
 //   }
 // };
 
-const getFactors = async (req: any, res: any) => {
+const getQuestionnaires = async (req: any, res: any) => {
   try {
-    const factor = await prisma.factor.findMany();
-    res.status(200).json(factor);
+    const questionnaires = await prisma.questionnaire.findMany();
+    res.status(200).json(questionnaires);
   } catch (e) {
     res.status(500).json({ error: e });
   }
 };
 
-const getFactor = async (req: any, res: any) => {
+const getQuestionnaire = async (req: any, res: any) => {
   try {
     const { id } = req.params;
-    const factor = await prisma.factor.findUnique({
+    const questionnaire = await prisma.questionnaire.findUnique({
       where: {
-        factor_id: Number(id),
+        questionnaire_id: Number(id),
       },
+      include: { Questionnaire_part_1: true, Questionnaire_part_2: true },
     });
-    res.status(200).json(factor);
+    res.status(200).json(questionnaire);
   } catch (e) {
     res.status(500).json({ error: e });
   }
 };
 
-const deletedFactor = async (req: any, res: any) => {
+const deletedQuestionnaire = async (req: any, res: any) => {
   try {
     const { id } = req.body;
-    const factor = await prisma.factor.delete({
+    const questionnaire = await prisma.questionnaire.delete({
       where: {
-        factor_id: Number(id),
+        questionnaire_id: Number(id),
       },
     });
-    res.status(200).json(factor);
+    res.status(200).json(questionnaire);
   } catch (e) {
     res.status(500).json({ error: e });
   }
 };
 
 export default {
-  getFactors,
-  getFactor,
-  deletedFactor,
+  getQuestionnaires,
+  getQuestionnaire,
+  deletedQuestionnaire,
 };

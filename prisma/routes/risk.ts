@@ -7,7 +7,7 @@ const router = express.Router();
 router.get('/getall', RiskController.getRisks);
 router.get('/get/:id', RiskController.getRisk);
 // router.put('/update/:id', RiskController.updateUser);
-// router.delete('/delete/:id', RiskController.deleteRisk);
+router.delete('/delete/:id', RiskController.deleteRisk);
 // router.delete('/deleteall', RiskController.deleteAllUsers);
 // router.post('/like', RiskController.likeUser);
 

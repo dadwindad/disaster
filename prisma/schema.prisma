@@ -13,7 +13,7 @@ datasource db {
 /////////////////////////////////////model//////////////////////
 
 model User_status {
-  User_status_id Int    @id
+  user_status_id Int    @id
   status_des     String
   userId         User[]
 }
@@ -35,10 +35,10 @@ model User {
   user_type                 Int
   date_create               DateTime?
   date_update               DateTime?
-  User_status               User_status? @relation(fields: [user_statusUser_status_id], references: [User_status_id])
-  user_statusUser_status_id Int?
   User_type                 User_type?   @relation(fields: [user_typeUser_type_id], references: [user_type_id])
   user_typeUser_type_id     Int?
+  User_status               User_status? @relation(fields: [user_statusUser_status_id], references: [user_status_id])
+  user_statusUser_status_id Int?
 }
 
 model Risk {
@@ -129,11 +129,17 @@ model Occupation {
   questionnaire_id Questionnaire_part_1[]
 }
 
+model Gender {
+  gender           Int                    @id
+  gender_des       String
+  questionnaire_id Questionnaire_part_1[]
+}
+
 model Questionnaire_part_1 {
   Questionnaire_part_1    Int             @id @default(autoincrement())
   q_fname                 String?
   q_lname                 String?
-  q_sex                   Int?
+  q_gender                Int?
   q_birth_of_date         DateTime?
   q_study_max_lv          Int?
   Study_lv                Study_lv?       @relation(fields: [study_lvStudy_lv], references: [study_lv])
@@ -143,6 +149,8 @@ model Questionnaire_part_1 {
   occupationOccupation_id Int?
   occupation_other        String?
   questionnaire_id        Questionnaire[]
+  Gender                  Gender?         @relation(fields: [genderGender], references: [gender])
+  genderGender            Int?
 }
 
 model Lack_water_freq {
@@ -212,8 +220,8 @@ model Irrigation {
   occupation_agriculture Occupation_agriculture[]
 }
 
-model water_sufficient {
-  Water_sufficient       Int                      @id
+model Water_sufficient {
+  water_sufficient       Int                      @id @unique
   water_sufficient_des   String
   occupation_agriculture Occupation_agriculture[]
   occupation_livestock   Occupation_livestock[]
@@ -222,21 +230,22 @@ model water_sufficient {
 }
 
 model Occupation_agriculture {
-  occupation_agriculture           Int                    @id @default(autoincrement())
-  plant_name                       String?
-  latitude                         String?
-  longitude                        String?
-  start_date                       DateTime?
-  finish_date                      DateTime?
-  area                             Float?
-  product_amount                   Float?
-  Irrigation                       Irrigation?            @relation(fields: [irrigationIrrigation], references: [irrigation])
-  irrigationIrrigation             Int?
-  water_source_name                String?
-  water_source_distance            Float?
-  water_sufficient                 water_sufficient?      @relation(fields: [water_sufficientWater_sufficient], references: [Water_sufficient])
-  water_sufficientWater_sufficient Int?
+  occupation_agriculture Int         @id @default(autoincrement())
+  plant_name             String?
+  latitude               String?
+  longitude              String?
+  start_date             DateTime?
+  finish_date            DateTime?
+  area                   Float?
+  product_amount         Float?
+  Irrigation             Irrigation? @relation(fields: [irrigationIrrigation], references: [irrigation])
+  irrigationIrrigation   Int?
+  water_source_name      String?
+  water_source_distance  Float?
+
   questionnaire_part_2             Questionnaire_part_2[]
+  Water_sufficient                 Water_sufficient?      @relation(fields: [water_sufficientWater_sufficient], references: [water_sufficient])
+  water_sufficientWater_sufficient Int?
 }
 
 model Lack_water_freq_agriculture {
@@ -258,18 +267,19 @@ model Lack_water_long_livestock {
 }
 
 model Occupation_livestock {
-  occupation_livestock             Int                    @id @default(autoincrement())
-  animal                           String?
-  latitude                         String?
-  longitude                        String?
-  amount                           Int?
-  area_size                        Float?
-  water_aount_day                  Float?
-  water_source_name                String?
-  water_source_distance            Float?
-  water_sufficient                 water_sufficient?      @relation(fields: [water_sufficientWater_sufficient], references: [Water_sufficient])
-  water_sufficientWater_sufficient Int?
+  occupation_livestock  Int     @id @default(autoincrement())
+  animal                String?
+  latitude              String?
+  longitude             String?
+  amount                Int?
+  area_size             Float?
+  water_aount_day       Float?
+  water_source_name     String?
+  water_source_distance Float?
+
   questionnaire_part_2             Questionnaire_part_2[]
+  Water_sufficient                 Water_sufficient?      @relation(fields: [water_sufficientWater_sufficient], references: [water_sufficient])
+  water_sufficientWater_sufficient Int?
 }
 
 model Lack_water_freq_fishing {
@@ -279,18 +289,19 @@ model Lack_water_freq_fishing {
 }
 
 model Occupation_fishing {
-  occupation_fishing               Int                    @id @default(autoincrement())
-  animal                           String?
-  latitude                         String?
-  longitude                        String?
-  amount                           Int?
-  pond_size                        Float?
-  water_aount_day                  Float?
-  water_source_name                String?
-  water_source_distance            Float?
-  water_sufficient                 water_sufficient?      @relation(fields: [water_sufficientWater_sufficient], references: [Water_sufficient])
-  water_sufficientWater_sufficient Int?
+  occupation_fishing    Int     @id @default(autoincrement())
+  animal                String?
+  latitude              String?
+  longitude             String?
+  amount                Int?
+  pond_size             Float?
+  water_aount_day       Float?
+  water_source_name     String?
+  water_source_distance Float?
+
   questionnaire_part_2             Questionnaire_part_2[]
+  Water_sufficient                 Water_sufficient?      @relation(fields: [water_sufficientWater_sufficient], references: [water_sufficient])
+  water_sufficientWater_sufficient Int?
 }
 
 model Lack_water_freq_other {
@@ -306,17 +317,18 @@ model Lack_water_long_other {
 }
 
 model Occupation_other {
-  occupation_other                 Int                    @id @default(autoincrement())
-  occupation_name                  String?
-  latitude                         String?
-  longitude                        String?
-  occupation_area                  Float?
-  water_aount_day                  Float?
-  water_source_name                String?
-  water_source_distance            Float?
-  water_sufficient                 water_sufficient?      @relation(fields: [water_sufficientWater_sufficient], references: [Water_sufficient])
-  water_sufficientWater_sufficient Int?
+  occupation_other      Int     @id @default(autoincrement())
+  occupation_name       String?
+  latitude              String?
+  longitude             String?
+  occupation_area       Float?
+  water_aount_day       Float?
+  water_source_name     String?
+  water_source_distance Float?
+
   questionnaire_part_2             Questionnaire_part_2[]
+  Water_sufficient                 Water_sufficient?      @relation(fields: [water_sufficientWater_sufficient], references: [water_sufficient])
+  water_sufficientWater_sufficient Int?
 }
 
 model Questionnaire_part_2 {

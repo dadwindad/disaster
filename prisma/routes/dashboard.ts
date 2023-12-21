@@ -7,7 +7,7 @@ const router = express.Router();
 router.get('/getall', DashboardController.getDashboards);
 router.get('/get/:id', DashboardController.getDashboard);
 // router.put('/update/:id', DashboardController.updateUser);
-// router.delete('/delete/:id', DashboardController.deleteUser);
+router.delete('/delete/:id', DashboardController.deleteDashboard);
 // router.delete('/deleteall', DashboardController.deleteAllUsers);
 // router.post('/like', DashboardController.likeUser);
 

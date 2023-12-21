@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import bodyParser from 'body-parser';
 import { prisma } from '../server';
 
-const createBlogPost = async (req: Request, res: Response) => {
+const createBlogPost = async (req: any, res: any) => {
   try {
     const { title, content } = req.body;
     const newBlogPost = await prisma.user.create({
@@ -17,7 +17,7 @@ const createBlogPost = async (req: Request, res: Response) => {
   }
 };
 
-const createPostAndComments = async (req: Request, res: Response) => {
+const createPostAndComments = async (req: any, res: any) => {
   try {
     const { title, content, comments } = req.body;
     const newBlogPost = await prisma.user.create({
@@ -38,7 +38,7 @@ const createPostAndComments = async (req: Request, res: Response) => {
   }
 };
 
-const getBlogPosts = async (req: Request, res: Response) => {
+const getBlogPosts = async (req: any, res: any) => {
   try {
     const blogPosts = await prisma.user.findMany();
     res.status(200).json(blogPosts);
@@ -47,7 +47,7 @@ const getBlogPosts = async (req: Request, res: Response) => {
   }
 };
 
-const getBlogPost = async (req: Request, res: Response) => {
+const getBlogPost = async (req: any, res: any) => {
   try {
     const { id } = req.params;
     const blogPost = await prisma.user.findUnique({
@@ -61,7 +61,7 @@ const getBlogPost = async (req: Request, res: Response) => {
   }
 };
 
-const updateBlogPost = async (req: Request, res: Response) => {
+const updateBlogPost = async (req: any, res: any) => {
   try {
     const { id, title, content } = req.body;
     const updatedBlogPost = await prisma.user.update({
@@ -79,7 +79,7 @@ const updateBlogPost = async (req: Request, res: Response) => {
   }
 };
 
-const deleteBlogPost = async (req: Request, res: Response) => {
+const deleteBlogPost = async (req: any, res: any) => {
   try {
     const { id } = req.body;
     const deletedBlogPost = await prisma.user.delete({
@@ -93,7 +93,7 @@ const deleteBlogPost = async (req: Request, res: Response) => {
   }
 };
 
-const deleteAllBlogPosts = async (req: Request, res: Response) => {
+const deleteAllBlogPosts = async (req: any, res: any) => {
   try {
     const deletedBlogPosts = await prisma.user.deleteMany();
     res.status(200).json(deletedBlogPosts);
@@ -102,7 +102,7 @@ const deleteAllBlogPosts = async (req: Request, res: Response) => {
   }
 };
 
-const likeBlogPost = async (req: Request, res: Response) => {
+const likeBlogPost = async (req: any, res: any) => {
   try {
     const { id } = req.body;
     const likedBlogPost = await prisma.user.update({

@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { prisma } from '../server';
 
-// const createUser = async (req:any, res:any) => {
+// const createUser = async (req: any, res: any) => {
 //   try {
 //     const { user_ciz_id, user_type } = req.params;
 //     const newUser = await prisma.user.create({
@@ -15,23 +15,22 @@ import { prisma } from '../server';
 //   }
 // };
 
-const getUsers = async (req: any, res: any) => {
+const getOccupations = async (req: any, res: any) => {
   try {
-    const users = await prisma.user.findMany();
+    const users = await prisma.risk.findMany();
     res.status(200).json(users);
   } catch (e) {
     res.status(500).json({ error: e });
   }
 };
 
-const getUser = async (req: any, res: any) => {
+const getOccupation = async (req: any, res: any) => {
   try {
     const { id } = req.params;
-    const user = await prisma.user.findUnique({
+    const user = await prisma.risk.findUnique({
       where: {
-        user_ciz_id: String(id),
+        risk_lv: Number(id),
       },
-      include: { User_status: true, User_type: true },
     });
     res.status(200).json(user);
   } catch (e) {
@@ -39,22 +38,22 @@ const getUser = async (req: any, res: any) => {
   }
 };
 
-const deleteUser = async (req: any, res: any) => {
+const deletedOccupation = async (req: any, res: any) => {
   try {
     const { id } = req.body;
-    const deletedUser = await prisma.user.delete({
+    const risk = await prisma.risk.delete({
       where: {
-        user_ciz_id: String(id),
+        risk_lv: Number(id),
       },
     });
-    res.status(200).json(deletedUser);
+    res.status(200).json(risk);
   } catch (e) {
     res.status(500).json({ error: e });
   }
 };
 
 export default {
-  getUsers,
-  getUser,
-  deleteUser,
+  getOccupations,
+  getOccupation,
+  deletedOccupation,
 };
