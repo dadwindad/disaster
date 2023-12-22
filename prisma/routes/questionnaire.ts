@@ -1,7 +1,5 @@
-import express from 'express';
+import router from '../utils/route';
 import QuestionnaireController from '../controllers/questionnaire';
-
-const router = express.Router();
 
 // router.post('/create', QuestionnaireController.createUser);
 router.get('/getall', QuestionnaireController.getQuestionnaires);

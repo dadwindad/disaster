@@ -6,7 +6,7 @@ module.exports = {
       watch: true,
       // Delay between restart
       watch_delay: 1000,
-      instances: '4',
+      instances: '1',
       exec_mode: 'cluster',
       interpreter: './node_modules/.bin/ts-node',
       // interpreter: '/usr/local/bin/ts-node',
@@ -18,7 +18,7 @@ module.exports = {
       watch: true,
       // Delay between restart
       watch_delay: 1000,
-      instances: '4',
+      instances: '1',
       exec_mode: 'cluster',
     },
   ],

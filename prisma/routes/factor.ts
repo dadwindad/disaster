@@ -1,7 +1,5 @@
-import express from 'express';
+import router from '../utils/route';
 import FactorController from '../controllers/factor';
-
-const router = express.Router();
 
 // router.post('/create', FactorController.createUser);
 router.get('/getall', FactorController.getFactors);

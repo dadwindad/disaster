@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
-import { prisma } from '../server';
+import prisma from '../utils/db';
 
-// const createUser = async (req:any, res:any) => {
+// const createUser = async (req: any, res: any) => {
 //   try {
 //     const { user_ciz_id, user_type } = req.params;
 //     const newUser = await prisma.user.create({

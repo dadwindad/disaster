@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import bodyParser from 'body-parser';
-import { prisma } from '../server';
+import prisma from '../utils/db';
 
 const createBlogPost = async (req: any, res: any) => {
   try {

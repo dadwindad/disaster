@@ -1,7 +1,5 @@
-import express from 'express';
+import router from '../utils/route';
 import DashboardController from '../controllers/dashboard';
-
-const router = express.Router();
 
 // router.post('/create', DashboardController.createUser);
 router.get('/getall', DashboardController.getDashboards);

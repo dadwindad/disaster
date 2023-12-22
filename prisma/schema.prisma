@@ -32,7 +32,6 @@ model User {
   user_lname                String?
   user_tel                  String?
   user_avatar               String?
-  user_type                 Int
   date_create               DateTime?
   date_update               DateTime?
   User_type                 User_type?   @relation(fields: [user_typeUser_type_id], references: [user_type_id])

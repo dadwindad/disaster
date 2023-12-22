@@ -1,7 +1,5 @@
-import express from 'express';
+import router from '../utils/route';
 import RiskController from '../controllers/risk';
-
-const router = express.Router();
 
 // router.post('/create', RiskController.createUser);
 router.get('/getall', RiskController.getRisks);

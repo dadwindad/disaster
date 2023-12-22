@@ -1,7 +1,5 @@
-import express from 'express';
+import router from '../utils/route';
 import OccupationController from '../controllers/occupation';
-
-const router = express.Router();
 
 // router.post('/create', OccupationController.createUser);
 router.get('/getall', OccupationController.getOccupations);

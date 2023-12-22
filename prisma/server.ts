@@ -1,7 +1,7 @@
-import express from 'express';
-import { PrismaClient } from '@prisma/client';
+import express, { Request, Response, NextFunction } from 'express';
 import bodyParser from 'body-parser';
 
+import prisma from './utils/db';
 import UserRouter from './routes/user';
 import RiskRouter from './routes/risk';
 import MemberRouter from './routes/member';
@@ -9,10 +9,10 @@ import HomeRouter from './routes/home';
 import DashboardRouter from './routes/dashboard';
 import FactorRouter from './routes/factor';
 import OccupationRouter from './routes/occupation';
+import Auth from './routes/auth';
 
 var cors = require('cors');
 
-export const prisma = new PrismaClient();
 const app = express();
 const port = 5000;
 
@@ -20,6 +20,7 @@ async function main() {
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(bodyParser.json());
 
+  app.use('/api/v1/auth', Auth);
   app.use('/api/v1/user', UserRouter);
   app.use('/api/v1/risk', RiskRouter);
   app.use('/api/v1/risk', MemberRouter);
@@ -28,7 +29,7 @@ async function main() {
   app.use('/api/v1/dashboard', DashboardRouter);
   app.use('/api/v1/occupation', OccupationRouter);
 
-  app.all('*', (req: any, res: any) => {
+  app.all('*', (req: Request, res: Response, next: NextFunction) => {
     res.status(404).json({ error: `Route ${req.originalUrl} not found` });
   });
 

@@ -1,7 +1,5 @@
-import express from 'express';
+import router from '../utils/route';
 import HomeController from '../controllers/home';
-
-const router = express.Router();
 
 // router.post('/create', HomeController.createUser);
 router.get('/getall', HomeController.getHomes);
